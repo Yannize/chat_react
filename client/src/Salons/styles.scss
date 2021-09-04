@@ -1,0 +1,12 @@
+.salons-container {
+  background-color: #26308d;
+  height: 100vh;
+  width: 30%;
+  overflow-y: auto;
+  .buttonCreateSalon {
+    width: 100px;
+  }
+  .salon {
+    margin-bottom: 0.6rem;
+  }
+}
