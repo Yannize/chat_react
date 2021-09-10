@@ -3,10 +3,10 @@ import ChatRoom from '../ChatRoom';
 
 import './styles.scss';
 
-const Chat = ({ rooms }) => {
+const Chat = () => {
   return (
     <div className='chat'>
-      <Salons rooms={rooms} />
+      <Salons />
       <ChatRoom />
     </div>
   );

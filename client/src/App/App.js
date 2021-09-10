@@ -8,12 +8,10 @@ import './App.scss';
 
 function App() {
   const [roomName, setRoomName] = useState('');
-  const [username, setUserName] = useState('');
-  const [rooms, setRooms] = useState([]); // nouvelle room left section
+  const [userName, setUserName] = useState('');
 
   const handleOnSubmitUserRoom = (e) => {
     e.preventDefault();
-    setRooms([...rooms, roomName]);
   };
 
   return (
@@ -24,13 +22,13 @@ function App() {
             handleOnSubmitUserRoom={handleOnSubmitUserRoom}
             roomName={roomName}
             setRoomName={setRoomName}
-            username={username}
+            userName={userName}
             setUserName={setUserName}
           />
         </Route>
 
         <Route exact path='/chat'>
-          <Chat rooms={rooms} roomName={roomName} />
+          <Chat />
         </Route>
       </BrowserRouter>
     </div>

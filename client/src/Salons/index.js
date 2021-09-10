@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import './styles.scss';
+const queryString = require('query-string');
 
-const Salons = ({ rooms }) => {
+const Salons = () => {
+  const { room } = queryString.parse(window.location.search);
+
   return (
     <div className='salons-container'>
-      {rooms.map((room) => (
-        <div className='salon'>{room}</div>
-      ))}
+      <div className='salon'>{room}</div>
     </div>
   );
 };

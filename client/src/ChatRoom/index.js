@@ -3,43 +3,57 @@ import { io } from 'socket.io-client';
 
 import { IoIosSend } from 'react-icons/io';
 import './styles.scss';
+const queryString = require('query-string');
 
 const socket = io('http://localhost:3001');
 
+let countId = 0;
+
 const ChatRoom = () => {
+  const { pseudo } = queryString.parse(window.location.search);
+
   const [inputMessage, setInputMessage] = useState(''); // message tapez dans l'input
   const [messagesList, setMessagesList] = useState([]); // la liste de tous les messages écrit
-  const pseudo = 'Yannou';
 
-  // reçoit les nouveaux message de socket.io
   useEffect(() => {
     socket.on('receive_message', (message) => {
+      console.log(message);
       setMessagesList([...messagesList, message]);
     });
+
+    return () => {
+      socket.off();
+    };
   }, [messagesList]);
 
   // submit d'un message : si input pas vide => ajoute le message à la liste et vide l'input
   const onInputMessageSubmit = (e) => {
     e.preventDefault();
+
     if (inputMessage) {
-      setMessagesList([...messagesList, inputMessage]);
+      setMessagesList([
+        ...messagesList,
+        { message: inputMessage, pseudo, id: `${countId}${pseudo}` },
+      ]);
       setInputMessage('');
-
-      socket.emit('send_message', inputMessage);
+      socket.emit('send_message', {
+        message: inputMessage,
+        pseudo,
+        id: `${countId}${pseudo}`,
+      });
     }
-  };
 
-  // fake data
+    countId++;
+  };
 
   return (
     <div className='chat-room'>
-      {/* CHAT-BOX */}
       <div className='chat-box'>
         <div className='message-box'>
           {messagesList.map((m) => (
-            <div className='bulle-message'>
-              <span className='pseudo'>{pseudo}</span>
-              <p className='message'>{m}</p>
+            <div key={m.id} className='bulle-message'>
+              <span className='pseudo'>{m.pseudo}</span>
+              <p className='message'>{m.message}</p>
             </div>
           ))}
         </div>
